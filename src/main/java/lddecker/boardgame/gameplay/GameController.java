@@ -2,14 +2,17 @@ package lddecker.boardgame.gameplay;
 
 import lddecker.boardgame.Parser.CommandParser;
 import lddecker.boardgame.board.Board;
+import lddecker.boardgame.board.FancyBoard;
+import lddecker.boardgame.board.WordGame;
 
+import javax.swing.*;
 import java.io.PrintWriter;
 import java.util.Scanner;
 
 public class GameController {
     private Scanner _input;
     private PrintWriter _output;
-    private Board _board;
+    private WordGame _board;
     private boolean _keepPlaying;
 
     public GameController(Scanner input, PrintWriter output) {
@@ -27,7 +30,7 @@ public class GameController {
                 _output.flush();
 
                 Move move = parser.parseLine(_input.nextLine());
-                move.play(_board);
+                move.play((Board) _board);
                 _keepPlaying = !move.gameIsOver();
 
                 _output.println(move.getMoveDisplay());
@@ -37,6 +40,25 @@ public class GameController {
                 _output.flush();
             }
         }
+    }
 
+    public void playFancyGame() {
+        Runnable runnable = new Runnable() {
+
+            @Override
+            public void run() {
+                _board = new FancyBoard();
+
+                JFrame frame = new JFrame();
+                frame.add(((FancyBoard) _board).getGui());
+                frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                frame.setLocationByPlatform(true);
+
+                frame.pack();
+                frame.setMinimumSize(frame.getSize());
+                frame.setVisible(true);
+            }
+        };
+        SwingUtilities.invokeLater(runnable);
     }
 }

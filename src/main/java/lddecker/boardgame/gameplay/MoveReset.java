@@ -9,7 +9,7 @@ public class MoveReset extends Move {
 
     @Override
     public void play(Board board) throws Exception {
-        board.reset();
+        board.resetBoard();
         _moveDisplay = board.getBoardDisplay();
     }
 }

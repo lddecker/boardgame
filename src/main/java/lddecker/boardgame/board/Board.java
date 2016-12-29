@@ -1,10 +1,6 @@
 package lddecker.boardgame.board;
 
-import java.util.Arrays;
-
-public class Board {
-    private static int WIDTH = 15;
-    private static int HEIGHT = 15;
+public class Board implements WordGame {
 
     private Cell[][] _board;
 
@@ -47,6 +43,7 @@ public class Board {
         return displayString;
     }
 
+    @Override
     public void playWord(String word, int column, int row, Direction direction) throws Exception {
         word = word.toUpperCase();
         Cell[][] newBoard = copyBoard();
@@ -65,13 +62,14 @@ public class Board {
             }
         }
         _board = newBoard;
-
     }
 
-    public void reset() {
+    @Override
+    public void resetBoard() {
         initializeBoard();
     }
 
+    @Override
     public int calculateScore() {
         int score = 0;
         for (Cell[] rows : _board) {
