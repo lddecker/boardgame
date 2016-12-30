@@ -1,6 +1,6 @@
 package lddecker.boardgame.gameplay;
 
-import lddecker.boardgame.board.Board;
+import lddecker.boardgame.board.impl.Board;
 import lddecker.boardgame.board.Direction;
 
 public class MoveWord extends Move {

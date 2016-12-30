@@ -1,6 +1,6 @@
 package lddecker.boardgame.gameplay;
 
-import lddecker.boardgame.board.Board;
+import lddecker.boardgame.board.impl.Board;
 
 public class MoveScore extends Move {
     public MoveScore() {

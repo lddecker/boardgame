@@ -1,38 +1,47 @@
 package lddecker.boardgame.board;
 
-class Cell {
+public abstract class AbstractCell {
     private int _multiplier;
     private Character _emptyDisplay;
     private Character _currValue;
 
-    Cell() {
+    protected AbstractCell() {
         _multiplier = 1;
         _emptyDisplay = ' ';
-        _currValue = null;
     }
 
-    void update(Character newVal) throws Exception {
+    public void update(Character newVal) throws Exception {
         if (!isValidCharacter(newVal)) {
-            throw new Exception("Invalid value for cell: " + newVal);
+            throw new Exception("Invalid value for cell: [" + newVal + "]");
         }
-        if (_currValue != null) {
+        if (_currValue != null && !_currValue.equals(newVal)) {
             throw new Exception("Cell is already populated");
         }
         _currValue = newVal;
+        updateCellValue(newVal);
     }
 
-    public static boolean isValidCharacter(Character newVal) {
+    protected abstract void updateCellValue(Character newVal);
+
+    public boolean isValidCharacter(Character newVal) {
         return null != newVal && ' ' != newVal;
     }
 
-    int getScore() {
+    public void reset(){
+        _currValue = null;
+        resetImpl();
+    }
+
+    protected abstract void resetImpl();
+
+    public int getScore() {
         if (null == _currValue) {
             return 0;
         }
         return _multiplier;
     }
 
-    Character getDisplayChar() {
+    public Character getDisplayChar() {
         if (null == _currValue) {
             return _emptyDisplay;
         }

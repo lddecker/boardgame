@@ -1,8 +1,8 @@
 package lddecker.boardgame.gameplay;
 
 import lddecker.boardgame.Parser.CommandParser;
-import lddecker.boardgame.board.Board;
-import lddecker.boardgame.board.FancyBoard;
+import lddecker.boardgame.board.impl.Board;
+import lddecker.boardgame.board.impl.FancyBoard;
 import lddecker.boardgame.board.WordGame;
 
 import javax.swing.*;

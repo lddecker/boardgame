@@ -1,6 +1,6 @@
 package lddecker.boardgame.gameplay;
 
-import lddecker.boardgame.board.Board;
+import lddecker.boardgame.board.impl.Board;
 
 public class MoveEnd extends Move {
     public MoveEnd() {

@@ -1,30 +1,32 @@
-package lddecker.boardgame.board;
+package lddecker.boardgame.board.impl;
+
+import lddecker.boardgame.board.AbstractCell;
+import lddecker.boardgame.board.Direction;
+import lddecker.boardgame.board.WordGame;
 
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.border.*;
 
-public class FancyBoard implements WordGame {
+public class FancyBoard extends WordGame {
     private final JPanel _gui = new JPanel(new BorderLayout(3, 3));
     private final Color _backgroundColour = Color.LIGHT_GRAY;
     private final int _cellsInBoard = 15;
-    private final Color _defaultCellBackground = Color.WHITE;
     private final Color _borderColour = Color.BLACK;
     private final int _minimumSize = 400;
     private JTextArea _wordInput = new JTextArea("");
-    private JButton[][] _board = new JButton[HEIGHT][WIDTH];
     private JPanel _gameBoard;
     private final JLabel _message = new JLabel("Make your move!");
     private static final String COLUMN_LABELS = "ABCDEFGHIJKLMOP";
-    private final Insets _buttonMargin = new Insets(0, 0, 0, 0);
     private final JComboBox _directionBox = new JComboBox<>(Direction.values());
 
     public FancyBoard() {
-        initializeGui();
+        _board = new FancyCell[HEIGHT][WIDTH];
+        initializeBoard();
     }
 
-    private void initializeGui() {
+    private void initializeBoard() {
         // set up the main GUI
         _gui.setBorder(new EmptyBorder(5, 5, 5, 5));
         JToolBar tools = new JToolBar();
@@ -93,16 +95,10 @@ public class FancyBoard implements WordGame {
     private void createBoardSquares() {
         for (int i = 0; i < _board.length; i++) {
             for (int j = 0; j < _board[i].length; j++) {
-                if (_board[j][i] != null) {
-                    _board[j][i].removeAll();
-                }
-                JButton button = new JButton();
-                button.setMargin(_buttonMargin);
-                button.setBackground(_defaultCellBackground);
-                button.setText("");
+                AbstractCell button = new FancyCell();
                 final int finalI = i;
                 final int finalJ = j;
-                button.setAction(new AbstractAction() {
+                AbstractAction cellSelectAction = new AbstractAction() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         String inputWord = _wordInput.getText();
@@ -113,10 +109,10 @@ public class FancyBoard implements WordGame {
                         } catch (Exception e1) {
                             e1.printStackTrace();
                         }
-                        System.out.println(inputWord);
                     }
-                });
-                _board[j][i] = button;
+                };
+                ((FancyCell) button).setAction(cellSelectAction);
+                _board[i][j] = button;
             }
         }
 
@@ -132,7 +128,7 @@ public class FancyBoard implements WordGame {
                     case 0:
                         _gameBoard.add(new JLabel("" + (_cellsInBoard - row), SwingConstants.CENTER));
                     default:
-                        _gameBoard.add(_board[column][row]);
+                        _gameBoard.add(((FancyCell)_board[row][column]).getButton());
                 }
             }
         }
@@ -144,33 +140,15 @@ public class FancyBoard implements WordGame {
 
     @Override
     public void playWord(String word, int column, int row, Direction direction) throws Exception {
-        word = word.toUpperCase();
-        for (char c : word.toCharArray()) {
-            try {
-                String existingText = _board[column][row].getText();
-                if (existingText != null && existingText != "") {
-                    throw new Exception("already occupied");
-                }
-                _board[column][row].setText(Character.toString(c));
-            } catch (Exception e) {
-                throw e;
-            }
-            if (Direction.DOWN == direction) {
-                row++;
-            } else if (Direction.ACROSS == direction) {
-                column++;
-            } else {
-                throw new Exception("Unknown direction: " + direction.name());
-            }
-        }
+        updateBoardForNewWord(word, column, row, direction);
     }
 
     @Override
     public void resetBoard() {
         for (int i = 0; i < _board.length; i++) {
             for (int j = 0; j < _board[i].length; j++) {
-                if (_board[j][i] != null) {
-                    _board[j][i].setText("");
+                if (_board[i][j] != null) {
+                    _board[i][j].reset();
                 }
             }
         }
