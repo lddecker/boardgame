@@ -1,6 +1,6 @@
 package lddecker.boardgame.gameplay;
 
-import lddecker.boardgame.board.impl.Board;
+import lddecker.boardgame.board.WordGame;
 
 public abstract class Move {
     private CommandEnum _commandEnum;
@@ -16,13 +16,14 @@ public abstract class Move {
         _moveDisplay = "";
     }
 
+
     public CommandEnum getCommand() {
         return _commandEnum;
     }
 
-    public boolean gameIsOver() {
+    public boolean gameIsOver(WordGame board) {
         return false;
     }
 
-    abstract public void play(Board board) throws Exception;
+    abstract public void play(WordGame board) throws Exception;
 }

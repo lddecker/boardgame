@@ -34,6 +34,28 @@ public abstract class AbstractCell {
 
     protected abstract void resetImpl();
 
+    public void doubleScoreModifier() {
+        _multiplier = 2;
+        doubleScoreModifierImpl();
+    }
+
+    public void tripleScoreModifier() {
+        _multiplier = 3;
+        tripleScoreModifierImpl();
+    }
+
+    protected abstract void tripleScoreModifierImpl();
+
+    public void doubleScoreModifier(Object modifier) {
+        _multiplier = 2;
+    }
+
+    public void tripleScoreModifier(Object modifier) {
+        _multiplier = 3;
+    }
+
+    protected abstract void doubleScoreModifierImpl();
+
     public int getScore() {
         if (null == _currValue) {
             return 0;

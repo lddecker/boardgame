@@ -41,7 +41,18 @@ public class FancyBoard extends WordGame {
             }
         };
 
+        Action scoreAction = new AbstractAction("Score") {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int score = calculateScore();
+
+                _message.setText("Score: " + score);
+            }
+        };
+
         tools.add(newGameAction);
+        tools.add(scoreAction);
         tools.addSeparator();
         tools.add(_wordInput);
         tools.addSeparator();
@@ -90,6 +101,7 @@ public class FancyBoard extends WordGame {
         _gui.add(boardConstraint);
 
         createBoardSquares();
+        initBoardDog();
     }
 
     private void createBoardSquares() {
@@ -126,9 +138,9 @@ public class FancyBoard extends WordGame {
             for (int column = 0; column < _cellsInBoard; column++) {
                 switch (column) {
                     case 0:
-                        _gameBoard.add(new JLabel("" + (_cellsInBoard - row), SwingConstants.CENTER));
+                        _gameBoard.add(new JLabel("" + row, SwingConstants.CENTER));
                     default:
-                        _gameBoard.add(((FancyCell)_board[row][column]).getButton());
+                        _gameBoard.add(((FancyCell) _board[row][column]).getButton());
                 }
             }
         }
@@ -152,10 +164,84 @@ public class FancyBoard extends WordGame {
                 }
             }
         }
+        initBoardDog();
     }
 
     @Override
-    public int calculateScore() {
-        return 0;
+    public void endGame() {
+        _gameIsOver = true;
+        System.exit(0);
+    }
+
+    private void initBoardDog() {
+        Color beige = new Color(210, 180, 140);
+        Color black = Color.GRAY;
+        Color red = Color.RED;
+        getButtonAtLocation(2, 6).doubleScoreModifier(beige);
+        getButtonAtLocation(2, 7).doubleScoreModifier(beige);
+        getButtonAtLocation(2, 8).doubleScoreModifier(beige);
+        getButtonAtLocation(2, 9).tripleScoreModifier(black);
+
+        getButtonAtLocation(3, 3).tripleScoreModifier(black);
+        getButtonAtLocation(3, 4).doubleScoreModifier(beige);
+        getButtonAtLocation(3, 5).doubleScoreModifier(beige);
+        getButtonAtLocation(3, 6).tripleScoreModifier(black);
+        getButtonAtLocation(3, 7).doubleScoreModifier(beige);
+        getButtonAtLocation(3, 8).tripleScoreModifier(black);
+        getButtonAtLocation(3, 9).tripleScoreModifier(black);
+        getButtonAtLocation(3, 10).tripleScoreModifier(black);
+
+        getButtonAtLocation(4, 4).doubleScoreModifier(beige);
+        getButtonAtLocation(4, 5).doubleScoreModifier(beige);
+        getButtonAtLocation(4, 6).doubleScoreModifier(beige);
+        getButtonAtLocation(4, 7).doubleScoreModifier(beige);
+        getButtonAtLocation(4, 8).tripleScoreModifier(black);
+        getButtonAtLocation(4, 9).tripleScoreModifier(black);
+        getButtonAtLocation(4, 10).tripleScoreModifier(black);
+
+        getButtonAtLocation(5, 6).tripleScoreModifier(red);
+        getButtonAtLocation(5, 7).tripleScoreModifier(red);
+        getButtonAtLocation(5, 8).tripleScoreModifier(black);
+        getButtonAtLocation(5, 9).tripleScoreModifier(black);
+        getButtonAtLocation(5, 10).tripleScoreModifier(black);
+
+        getButtonAtLocation(6, 6).doubleScoreModifier(beige);
+        getButtonAtLocation(6, 7).doubleScoreModifier(beige);
+        getButtonAtLocation(6, 8).doubleScoreModifier(beige);
+        getButtonAtLocation(6, 9).tripleScoreModifier(black);
+
+        getButtonAtLocation(7, 4).doubleScoreModifier(beige);
+        getButtonAtLocation(7, 5).doubleScoreModifier(beige);
+        getButtonAtLocation(7, 6).doubleScoreModifier(beige);
+        getButtonAtLocation(7, 7).doubleScoreModifier(beige);
+        getButtonAtLocation(7, 8).doubleScoreModifier(beige);
+
+        getButtonAtLocation(8, 6).doubleScoreModifier(beige);
+        getButtonAtLocation(8, 7).doubleScoreModifier(beige);
+        getButtonAtLocation(8, 8).doubleScoreModifier(beige);
+
+        getButtonAtLocation(9, 6).doubleScoreModifier(beige);
+        getButtonAtLocation(9, 7).doubleScoreModifier(beige);
+        getButtonAtLocation(9, 8).doubleScoreModifier(beige);
+        getButtonAtLocation(9, 9).doubleScoreModifier(beige);
+
+        getButtonAtLocation(10, 6).doubleScoreModifier(beige);
+        getButtonAtLocation(10, 7).doubleScoreModifier(beige);
+        getButtonAtLocation(10, 8).doubleScoreModifier(beige);
+        getButtonAtLocation(10, 9).doubleScoreModifier(beige);
+
+        getButtonAtLocation(11, 4).doubleScoreModifier(beige);
+        getButtonAtLocation(11, 5).doubleScoreModifier(beige);
+        getButtonAtLocation(11, 6).doubleScoreModifier(beige);
+        getButtonAtLocation(11, 7).doubleScoreModifier(beige);
+        getButtonAtLocation(11, 8).doubleScoreModifier(beige);
+        getButtonAtLocation(11, 9).doubleScoreModifier(beige);
+        getButtonAtLocation(11, 10).doubleScoreModifier(beige);
+        getButtonAtLocation(11, 11).doubleScoreModifier(beige);
+
+    }
+
+    private AbstractCell getButtonAtLocation(int row, int column) {
+        return _board[row][column];
     }
 }

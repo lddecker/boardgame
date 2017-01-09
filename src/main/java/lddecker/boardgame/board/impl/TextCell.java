@@ -12,4 +12,14 @@ public class TextCell extends AbstractCell {
     protected void resetImpl() {
 
     }
+
+    @Override
+    protected void tripleScoreModifierImpl() {
+
+    }
+
+    @Override
+    protected void doubleScoreModifierImpl() {
+
+    }
 }

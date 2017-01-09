@@ -1,11 +1,11 @@
 package lddecker.boardgame.gameplay;
 
 import lddecker.boardgame.Parser.CommandParser;
-import lddecker.boardgame.board.impl.Board;
 import lddecker.boardgame.board.impl.FancyBoard;
 import lddecker.boardgame.board.WordGame;
 
 import javax.swing.*;
+import java.awt.event.*;
 import java.io.PrintWriter;
 import java.util.Scanner;
 
@@ -18,7 +18,7 @@ public class GameController {
     public GameController(Scanner input, PrintWriter output) {
         _input = input;
         _output = output;
-        _board = new Board();
+        _board = new FancyBoard();
         _keepPlaying = true;
     }
 
@@ -30,8 +30,8 @@ public class GameController {
                 _output.flush();
 
                 Move move = parser.parseLine(_input.nextLine());
-                move.play((Board) _board);
-                _keepPlaying = !move.gameIsOver();
+                move.play( _board);
+                _keepPlaying = !_board.isGameOver();
 
                 _output.println(move.getMoveDisplay());
                 _output.flush();
@@ -47,7 +47,6 @@ public class GameController {
 
             @Override
             public void run() {
-                _board = new FancyBoard();
 
                 JFrame frame = new JFrame();
                 frame.add(((FancyBoard) _board).getGui());
@@ -57,8 +56,15 @@ public class GameController {
                 frame.pack();
                 frame.setMinimumSize(frame.getSize());
                 frame.setVisible(true);
+                frame.addWindowListener(new WindowAdapter() {
+                    @Override
+                    public void windowClosing(WindowEvent windowEvent) {
+                        _board.endGame();
+                    }
+                });
             }
         };
         SwingUtilities.invokeLater(runnable);
+        playGame();
     }
 }

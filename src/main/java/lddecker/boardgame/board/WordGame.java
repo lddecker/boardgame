@@ -4,6 +4,7 @@ public abstract class WordGame {
     protected int WIDTH = 15;
     protected int HEIGHT = 15;
     protected AbstractCell[][] _board;
+    protected boolean _gameIsOver = false;
 
     public abstract void playWord(String word, int column, int row, Direction direction) throws Exception;
 
@@ -28,5 +29,19 @@ public abstract class WordGame {
 
     public abstract void resetBoard();
 
-    public abstract int calculateScore();
+    public int calculateScore() {
+        int score = 0;
+        for (AbstractCell[] rows : _board) {
+            for (AbstractCell col : rows) {
+                score += col.getScore();
+            }
+        }
+        return score;
+    }
+
+    public abstract void endGame();
+
+    public boolean isGameOver() {
+        return _gameIsOver;
+    }
 }

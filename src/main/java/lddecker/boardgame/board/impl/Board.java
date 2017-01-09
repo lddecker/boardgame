@@ -41,13 +41,7 @@ public class Board extends WordGame {
     }
 
     @Override
-    public int calculateScore() {
-        int score = 0;
-        for (AbstractCell[] rows : _board) {
-            for (AbstractCell col : rows) {
-                score += col.getScore();
-            }
-        }
-        return score;
+    public void endGame() {
+        _gameIsOver = true;
     }
 }

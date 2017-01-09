@@ -12,7 +12,10 @@ public class CommandParser {
         Move move;
         CommandEnum commandEnum = CommandEnum.valueOf(split[0].toUpperCase());
         if (CommandEnum.PLAYWORD == commandEnum) {
-            move = new MoveWord(split[2], Direction.valueOf(split[1].toUpperCase()), Integer.valueOf(split[3]), Integer.valueOf(split[4]));
+            String s = split[3];
+            int column = Character.toUpperCase(s.charAt(0)) - 'A';
+            Integer row = Integer.valueOf(s.substring(1));
+            move = new MoveWord(split[2], Direction.valueOf(split[1].toUpperCase()), column, row);
         } else if (CommandEnum.END == commandEnum) {
             move = new MoveEnd();
         } else if (CommandEnum.HELP == commandEnum) {

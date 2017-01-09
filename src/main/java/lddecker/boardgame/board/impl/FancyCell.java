@@ -32,6 +32,28 @@ public class FancyCell extends AbstractCell {
         _button.setText("");
     }
 
+    @Override
+    protected void tripleScoreModifierImpl() {
+        _button.setBackground(Color.RED);
+    }
+
+    @Override
+    protected void doubleScoreModifierImpl() {
+        _button.setBackground(Color.PINK);
+    }
+
+    @Override
+    public void doubleScoreModifier(Object modifier) {
+        super.doubleScoreModifier(modifier);
+        _button.setBackground((Color) modifier);
+    }
+
+    @Override
+    public void tripleScoreModifier(Object modifier) {
+        super.tripleScoreModifier(modifier);
+        _button.setBackground((Color) modifier);
+    }
+
     public void setAction(Action action) {
         _button.setAction(action);
     }

@@ -1,5 +1,6 @@
 package lddecker.boardgame.gameplay;
 
+import lddecker.boardgame.board.WordGame;
 import lddecker.boardgame.board.impl.Board;
 import lddecker.boardgame.board.Direction;
 
@@ -18,12 +19,16 @@ public class MoveWord extends Move {
     }
 
     @Override
-    public void play(Board board) {
+    public void play(WordGame board) {
         try {
             board.playWord(_word, _column, _row, _direction);
-            _moveDisplay = board.getBoardDisplay();
+            if (board instanceof Board) {
+                _moveDisplay = ((Board) board).getBoardDisplay();
+            }
         } catch (Exception e) {
-            _moveDisplay = e.getMessage() + "\n" + board.getBoardDisplay();
+            if (board instanceof Board) {
+                _moveDisplay = e.getMessage() + "\n" + ((Board) board).getBoardDisplay();
+            }
         }
     }
 }

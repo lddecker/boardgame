@@ -1,5 +1,6 @@
 package lddecker.boardgame.gameplay;
 
+import lddecker.boardgame.board.WordGame;
 import lddecker.boardgame.board.impl.Board;
 
 public class MoveReset extends Move {
@@ -8,8 +9,10 @@ public class MoveReset extends Move {
     }
 
     @Override
-    public void play(Board board) throws Exception {
+    public void play(WordGame board) throws Exception {
         board.resetBoard();
-        _moveDisplay = board.getBoardDisplay();
+        if (board instanceof Board) {
+            _moveDisplay = ((Board) board).getBoardDisplay();
+        }
     }
 }
